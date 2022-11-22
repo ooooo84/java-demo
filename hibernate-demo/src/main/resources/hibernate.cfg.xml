@@ -27,7 +27,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
 
-        <!-- 配置Mapping，使用注解配置时，这里留空 -->
-        <mapping/>
+        <!-- 配置Mapping，使用注解配置时，只需要保留一个空的Mapping节点 -->
+        <mapping resource="hbm.mapping/Customer.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

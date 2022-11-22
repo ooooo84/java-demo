@@ -17,8 +17,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <mysql-driver.version>8.0.31</mysql-driver.version>
+        <!-- JDK8 只能使用5.x -->
         <hibernate.version>5.6.14.Final</hibernate.version>
-        <hibernate-validator.version>8.0.0.Final</hibernate-validator.version>
+        <!-- JDK8 建议使用6.x -->
+        <hibernate-validator.version>6.2.5.Final</hibernate-validator.version>
     </properties>
 
 
@@ -41,4 +43,16 @@
             <version>${hibernate-validator.version}</version>
         </dependency>
     </dependencies>
+
+    <build>
+        <!-- 配置允许读取src下的xml文件 -->
+        <!--        <resources>-->
+        <!--            <resource>-->
+        <!--                <directory>src/main/java</directory>-->
+        <!--                <includes>-->
+        <!--                    <include>**/*.xml</include>-->
+        <!--                </includes>-->
+        <!--            </resource>-->
+        <!--        </resources>-->
+    </build>
 </project>
