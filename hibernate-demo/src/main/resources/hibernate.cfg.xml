@@ -29,5 +29,6 @@
 
         <!-- 配置Mapping，使用注解配置时，只需要保留一个空的Mapping节点 -->
         <mapping resource="hbm.mapping/Customer.hbm.xml"/>
+        <mapping resource="hbm.mapping/CustomerOrder.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>
