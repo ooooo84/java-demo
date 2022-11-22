@@ -16,11 +16,11 @@ import java.util.UUID;
 
 public class HibernateSaveTest {
     public static void main(String[] args) {
-//        basicUsage();
+        basicUsage();
 
         SessionFactory sessionFactory = HibernateUtil.createSessionFactory();
 
-//        oneToManyCascadeSave(sessionFactory);
+        oneToManyCascadeSave(sessionFactory);
 
         manyToManyCascadeSave(sessionFactory);
     }

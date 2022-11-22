@@ -14,9 +14,9 @@ public class HibernateLazyLoadingTest {
     public static void main(String[] args) {
         SessionFactory sessionFactory = HibernateUtil.createSessionFactory();
 
-//        lazyLoadingOneToMany(sessionFactory);
+        lazyLoadingOneToMany(sessionFactory);
 
-//        lazyLoadingManyToOne(sessionFactory);
+        lazyLoadingManyToOne(sessionFactory);
 
         lazyLoadingManyToMany(sessionFactory);
     }
