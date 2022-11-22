@@ -2,15 +2,65 @@
 <!DOCTYPE hibernate-mapping PUBLIC
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!--
+  hibernate-mapping标签的属性：
+  package：给class节点对应的类统一设置包名，这样在class里就不再需要写包名
+  schema：数据库 schema 的名称
+  catalog：数据库 catalog 的名称
+  default-cascade：默认的级联关系，默认为none
+  default-access：Hibernate 用户访问属性的策略
+  default-lazy：指定了未明确注明 lazy 属性的Java属性和集合类，Hibernate会采用什么样的加载风格，默认为 true
+  auto-import：指定是否可以在查询语句中使用非全限定类名，默认为 true。
+    如果项目中有两个同名的持久化类，最好在这两个类的对应映射文件中配置为 false
+ -->
 <hibernate-mapping package="com.kingwang.study.entity">
-    <class name="Course" table="course">
+    <!--
+      class标签的属性：
+      name：实体类名
+      table：数据表名
+      schema：数据库 schema 的名称，会覆盖 hibernate-mapping 标签上的对应配置
+      catalog：数据库 catalog 的名称，会覆盖 hibernate-mapping 标签上的对应配置
+      proxy：指定一个接口，在延迟加载时作为代理使用
+      dynamic-update：动态更新。为null的字段不在更新SQL中出现。默认为false
+      dynamic-insert：动态添加。为null的字段不在插入SQL中出现。默认为false
+      where：查询时给SQL添加的默认查询条件
+     -->
+    <class name="Course" table="course" dynamic-insert="true" dynamic-update="true">
+        <!--
+          id标签的属性：
+          name：实体类属性名
+          type：实体类属性的数据类型。可以设置Java的数据类型或Hibernate映射的数据类型。
+            实体类的属性数据类型必须与数据表对应的字段数据类型一致。
+            Java数据类型映射到Hibernate映射类型，再由Hibernate映射类型映射到SQL数据类型（Java -> Hibernate -> SQL）
+          column：数据表的主键字段名
+         -->
         <id name="id" type="java.lang.String">
+            <!--
+              column标签的属性：
+              name：数据表的字段名
+              sql-type：数据表字段的数据类型（SQL）
+              not-null：是否可空
+            -->
             <!-- 如果是变长字符，sql-type中必须包含长度 -->
             <column name="id" sql-type="varchar(36)"/>
         </id>
+        <!--
+          property标签的属性：
+          name：实体类的属性名
+          column：数据表字段名
+          type：Java数据类型
+          update：该字段是否可以修改，默认为true
+          insert：该字段是否可以添加，默认为true
+          lazy：配置延迟加载策略
+         -->
         <property name="name" type="java.lang.String">
             <column name="name" sql-type="varchar(50)" not-null="true"/>
         </property>
+        <!--
+          set标签的属性：
+          inverse：设置是否将维护权交给另一方，默认为false，双方都在维护可能会导致性能降低
+          cascade：设置删除和更新时的级联操作，默认为none
+        -->
         <!-- 配置多对多关系，注意这里配置的table是中间表的名称，name配置的是JavaBean中的字段名称 -->
         <set name="students" table="stu_course" lazy="true">
             <!-- key配置与当前JavaBean关联的外键字段，需要指定字段长度时，必须使用单独的 column 标签 -->
