@@ -10,7 +10,7 @@ import org.hibernate.SessionFactory;
 
 import java.util.Set;
 
-public class HibernateQueryTest {
+public class HibernateLazyLoadingTest {
     public static void main(String[] args) {
         SessionFactory sessionFactory = HibernateUtil.createSessionFactory();
 
