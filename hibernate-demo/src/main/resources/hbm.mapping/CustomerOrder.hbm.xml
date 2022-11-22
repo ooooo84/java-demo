@@ -17,8 +17,9 @@
           name 指定JavaBean中的多对一属性
           class 指定主表Java对象类
           column 指定外键字段
+          lazy 延迟加载，默认为proxy。设置为false关闭
          -->
-        <many-to-one foreign-key="fk_cust_order_customer" name="customer" class="Customer">
+        <many-to-one foreign-key="fk_cust_order_customer" name="customer" class="Customer" lazy="proxy">
             <column name="customer_id" sql-type="varchar(36)"/>
         </many-to-one>
     </class>

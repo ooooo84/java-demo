@@ -1,21 +1,28 @@
 package com.kingwang.study;
 
+import com.kingwang.study.entity.Course;
 import com.kingwang.study.entity.Customer;
 import com.kingwang.study.entity.CustomerOrder;
+import com.kingwang.study.entity.Student;
+import com.kingwang.study.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
-public class HibernateTest {
+public class HibernateSaveTest {
     public static void main(String[] args) {
 //        basicUsage();
 
-        SessionFactory sessionFactory = createSessionFactory();
+        SessionFactory sessionFactory = HibernateUtil.createSessionFactory();
 
-        oneToManyCascadeSave(sessionFactory);
+//        oneToManyCascadeSave(sessionFactory);
+
+        manyToManyCascadeSave(sessionFactory);
     }
 
     /**
@@ -43,7 +50,7 @@ public class HibernateTest {
     }
 
     /**
-     * 级联保存的使用
+     * 一对多级联保存的使用
      *
      * @param sessionFactory
      */
@@ -66,11 +73,29 @@ public class HibernateTest {
         }
     }
 
-    private static SessionFactory createSessionFactory() {
-        // 1. 创建Configuration对象
-        Configuration configuration = new Configuration().configure();
+    /**
+     * 多对多级联保存的使用
+     *
+     * @param sessionFactory
+     */
+    private static void manyToManyCascadeSave(SessionFactory sessionFactory) {
+        try (Session session = sessionFactory.openSession()) {
+            Course newCourse = new Course();
+            newCourse.setId(UUID.randomUUID().toString());
+            newCourse.setName("Java");
 
-        // 2. 获取SessionFactory
-        return configuration.buildSessionFactory();
+            Student newStudent = new Student();
+            newStudent.setId(UUID.randomUUID().toString());
+            newStudent.setName("Charlie");
+
+            Set<Course> courses = new HashSet<>();
+            courses.add(newCourse);
+            newStudent.setCourses(courses);
+
+            session.save(newCourse);
+            session.save(newStudent);
+
+            session.beginTransaction().commit();
+        }
     }
 }

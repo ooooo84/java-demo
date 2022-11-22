@@ -11,8 +11,12 @@
         <property name="name" type="java.lang.String">
             <column name="name" sql-type="varchar(50)" not-null="true"/>
         </property>
-        <!-- 使用set标签配置一对多关系 -->
-        <set name="orders" table="cust_order">
+        <!-- 配置一对多关系
+          lazy属性指定是否启用延迟加载，默认为true，
+          设置为false时禁用延迟加载，也可以设置为extra，它是比true更加智能的一种加载方式，
+          但是不能默认就设置为extra，因为如果使用场景不总是获取count的话，可能性能会更低
+        -->
+        <set name="orders" table="cust_order" lazy="extra">
             <key column="customer_id"/>
             <one-to-many class="CustomerOrder"/>
         </set>
