@@ -15,7 +15,7 @@ public class HibernateTest {
 
         SessionFactory sessionFactory = createSessionFactory();
 
-        cascadeSave(sessionFactory);
+        oneToManyCascadeSave(sessionFactory);
     }
 
     /**
@@ -47,17 +47,18 @@ public class HibernateTest {
      *
      * @param sessionFactory
      */
-    private static void cascadeSave(SessionFactory sessionFactory) {
+    private static void oneToManyCascadeSave(SessionFactory sessionFactory) {
         try (Session session = sessionFactory.openSession()) {
             Customer newCustomer = new Customer();
             newCustomer.setId(UUID.randomUUID().toString());
-            newCustomer.setName("王五");
+            newCustomer.setName("朱七");
 
             CustomerOrder order = new CustomerOrder();
             order.setId(UUID.randomUUID().toString());
             order.setName("订单1");
             order.setCustomer(newCustomer);
 
+            // 保存，多个对象都要保存
             session.save(newCustomer);
             session.save(order);
 

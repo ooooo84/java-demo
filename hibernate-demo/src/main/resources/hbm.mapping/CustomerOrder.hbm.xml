@@ -18,6 +18,8 @@
           class 指定主表Java对象类
           column 指定外键字段
          -->
-        <many-to-one foreign-key="fk_cust_order_customer" name="customer" class="Customer" column="customer_id"/>
+        <many-to-one foreign-key="fk_cust_order_customer" name="customer" class="Customer">
+            <column name="customer_id" sql-type="varchar(36)"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

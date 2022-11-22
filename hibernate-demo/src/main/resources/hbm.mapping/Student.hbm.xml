@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.kingwang.study.entity">
+    <class name="Student" table="student">
+        <id name="id" type="java.lang.String">
+            <!-- 如果是变长字符，sql-type中必须包含长度 -->
+            <column name="id" sql-type="varchar(36)"/>
+        </id>
+        <property name="name" type="java.lang.String">
+            <column name="name" sql-type="varchar(50)" not-null="true"/>
+        </property>
+        <!-- 配置多对多关系，注意这里配置的table是中间表 -->
+        <set name="courses" table="stu_course">
+            <!-- key配置与当前JavaBean关联的外键字段，需要指定字段长度时，必须使用单独的 column 标签 -->
+            <key>
+                <column name="student_id" sql-type="varchar(36)"/>
+            </key>
+            <!-- many-to-many 配置另外的外键字段，需要指定字段长度时，必须使用单独的 column 标签 -->
+            <many-to-many foreign-key="fk_stu_course_course" class="Course">
+                <column name="course_id" sql-type="varchar(36)"/>
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>
