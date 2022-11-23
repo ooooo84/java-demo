@@ -3,14 +3,61 @@ package com.kingwang.study;
 import com.kingwang.study.entity.Customer;
 import com.kingwang.study.util.HibernateUtil;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import java.util.UUID;
 
 public class HibernateAdvancedTopicTest {
     public static void main(String[] args) {
-//        objectStateTransfer();
+        objectStateTransfer();
 
         level1Cache();
+
+        threadLocalSession();
+    }
+
+    /**
+     * 使用ThreadLocal管理Session对象，模拟Service业务方法
+     */
+    private static void threadLocalSession() {
+        Session session = HibernateUtil.getSession();
+
+        Transaction tx = session.beginTransaction();
+
+        try {
+            Customer c1 = new Customer();
+            c1.setId(UUID.randomUUID().toString());
+            c1.setName("C1");
+
+            saveCustomer(c1);
+
+//            int i = 100 / 0;
+
+            Customer c2 = new Customer();
+            c2.setId(UUID.randomUUID().toString());
+            c2.setName("C2");
+
+            saveCustomer(c2);
+
+            tx.commit();
+        } catch (Exception e) {
+            tx.rollback();
+        }
+
+        // 使用ThreadLocal管理Session对象时，为保证本线程内其它方法也可以使用session对象，所以不需要关闭
+    }
+
+    /**
+     * 使用ThreadLocal管理Session对象，模拟Dao层
+     *
+     * @param customer
+     */
+    private static void saveCustomer(Customer customer) {
+        Session session = HibernateUtil.getSession();
+
+        session.save(customer);
+
+        // 使用ThreadLocal管理Session对象时，Dao层不要关闭session对象！
     }
 
     /**

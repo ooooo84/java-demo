@@ -35,6 +35,10 @@ public final class HibernateUtil {
             createSessionFactory();
         }
 
-        return INSTANCE.openSession();
+        // 未使用ThreadLocal管理Session对象时，使用下面的命令获取Session
+//        return INSTANCE.openSession();
+
+        // 启用ThreadLocal管理Session对象时，使用下面的命令获取Session
+        return INSTANCE.getCurrentSession();
     }
 }

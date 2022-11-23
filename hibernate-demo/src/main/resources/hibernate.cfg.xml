@@ -35,6 +35,30 @@
           -->
         <property name="hbm2ddl.auto">update</property>
 
+        <!--
+          二级缓存配置（不建议配置，分布式部署时会遇到缓存一致性问题）
+          开启二级缓存需要引入相应的hibernate-ehcache或hibernate-jcache包
+         -->
+        <!--        <property name="hibernate.cache.use_second_level_cache">true</property>-->
+        <!--        <property name="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache-->
+        <!--            .EhCacheRegionFactory-->
+        <!--        </property>-->
+        <!-- 指定需要缓存的类 -->
+        <!--        <class-cache class="com.kingwang.study.entity.Customer" usage="read-only"/>-->
+
+        <!--
+          修改Hibernate（其实是数据库）的隔离级别（不建议在这里配置）
+          可配置为1、2、4或8，其含义分别为：
+          1：Read Uncommitted
+          2：Read Committed
+          4：Repeatable Read
+          8：Serializable
+         -->
+        <!--        <property name="hibernate.connection.isolation">2</property>-->
+
+        <!-- 让Session对象被ThreadLocal管理 -->
+        <property name="hibernate.current_session_context_class">thread</property>
+
         <!-- 配置是否显示并格式化SQL -->
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>

@@ -82,3 +82,40 @@ Hibernate的一级缓存其实就是 Session 对象中持有的缓存（就是 S
   </many-to-one>
   ```
 
+## 5. Hibernate抓取策略
+
+Hibernate的抓取策略是为了改变SQL语句查询的方式，从而提高SQL语句查询的效率（优化SQL语句）。
+
+同样以一对多关联为例：
+
+- 一方（使用`<set/>`配置）
+  ```xml
+  <set name="orders" table="cust_order" fetch="select、join或subselect" inverse="true">
+    <key column="customer_id"/>
+    <one-to-many class="CustomerOrder"/>
+  </set>
+  ```
+  fetch默认为 select，即关联属性使用多条select语句进行查询；当配置成 join 时，会将多条select语句合并成一条左外连接（left
+  join）语句进行查询，此时延迟加载会失效；当配置成 subselect 后，当同时查询多条一方的数据，且每一条数据都要访问关联的多方数据列表时，若使用默认的
+  select
+  配置，针对每一条一方数据都会执行一次多方表的查询，而使用 subselect 会使用一条SQL语句查询出所有的多方表的数据。
+
+- 多方（使用`<many-to-one/>`配置）
+  ```xml
+  <many-to-one foreign-key="fk_cust_order_customer" name="customer" class="Customer" lazy="proxy" fetch="select或join">
+    <column name="customer_id" sql-type="varchar(36)"/>
+  </many-to-one>
+  ```
+  fetch默认为 select，即关联属性使用多条select语句进行查询；当配置成 join 时，会将多条select语句合并成一条左外连接（left
+  join）语句进行查询，此时延迟加载会失效。
+
+## 6. Hibernate的二级缓存
+
+Hibernate的一级缓存就是Session对象内部的缓存，而Session对象在每次操作后都会关闭，一级缓存就会丢失！即一级缓存的作用域仅在一次业务操作内。
+
+Hibernate的二级缓存是SessionFactory的缓存，即二级缓存的生命周期与SessionFactory一致，而SessionFactory一般是单例的，因此二级缓存可用于多次不同的业务操作。
+
+> 注意：
+> 1. Hibernate一级缓存默认是开启的，且无法关闭
+> 2. Hibernate二级缓存默认是关闭的，如果需要开启，要引入第三方的缓存工具，例如EhCache等
+
