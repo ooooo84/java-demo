@@ -22,7 +22,7 @@ public class HibernateSaveTest {
      * saveOrUpdate(Object obj)：添加或修改对象
      * delete(Object obj)：删除对象
      * get(Class clazz, Serialize id)：获取对象
-     * load(Class clazz, Serialize id)：获取对象（支持延迟加载）
+     * load(Class clazz, Serialize id)：获取对象（支持类级别延迟加载）
      *
      * @param args
      */

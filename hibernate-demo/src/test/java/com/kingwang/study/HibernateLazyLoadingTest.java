@@ -19,6 +19,26 @@ public class HibernateLazyLoadingTest {
         lazyLoadingManyToOne(sessionFactory);
 
         lazyLoadingManyToMany(sessionFactory);
+
+        lazyLoadingProperties(sessionFactory);
+    }
+
+    /**
+     * 类级别延迟加载（无法实现）
+     *
+     * @param sessionFactory
+     */
+    private static void lazyLoadingProperties(SessionFactory sessionFactory) {
+        try (Session session = sessionFactory.openSession()) {
+            // 不支持延迟加载
+//            Customer customer = session.get(Customer.class, "7332961d-b501-45fd-8dcf-3c4a4cba5c43");
+
+            // 支持延迟加载
+            Customer customer = session.load(Customer.class, "7332961d-b501-45fd-8dcf-3c4a4cba5c43");
+
+            System.out.println();
+            System.out.println(customer.getName());
+        }
     }
 
     private static void lazyLoadingManyToMany(SessionFactory sessionFactory) {
