@@ -15,6 +15,17 @@ import java.util.Set;
 import java.util.UUID;
 
 public class HibernateSaveTest {
+    /**
+     * Hibernate Session接口常用方法：
+     * save(Object obj)：保存对象
+     * update(Object obj)：更新对象
+     * saveOrUpdate(Object obj)：添加或修改对象
+     * delete(Object obj)：删除对象
+     * get(Class clazz, Serialize id)：获取对象
+     * load(Class clazz, Serialize id)：获取对象（支持延迟加载）
+     *
+     * @param args
+     */
     public static void main(String[] args) {
         basicUsage();
 

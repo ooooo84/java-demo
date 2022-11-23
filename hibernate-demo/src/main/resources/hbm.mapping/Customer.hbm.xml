@@ -16,7 +16,8 @@
             设置为false时禁用延迟加载，也可以设置为extra，它是比true更加智能的一种加载方式，
             但是不能默认就设置为extra，因为如果使用场景不总是获取count的话，可能性能会更低
 
-          inverse属性设置是否将维护权交给另一方，默认为false，双方都在维护可能会导致性能降低
+          inverse属性设置是否将维护权交给另一方，默认为false，双方都在维护可能会导致性能降低（会执行多余的Update语句）。
+            通常在一对多的关系配置中，多方是无法放弃关系维护权的，建议放弃一方的维护权
         -->
         <set name="orders" table="cust_order" lazy="extra" inverse="true">
             <key column="customer_id"/>

@@ -3,6 +3,8 @@
         "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!--
+  Mapping文件帮助文档：https://docs.jboss.org/hibernate/orm/5.0/manual/en-US/html/ch05.html
+
   hibernate-mapping标签的属性：
   package：给class节点对应的类统一设置包名，这样在class里就不再需要写包名
   schema：数据库 schema 的名称
@@ -28,7 +30,7 @@
     <class name="Course" table="course" dynamic-insert="true" dynamic-update="true">
         <!--
           id标签的属性：
-          name：实体类属性名
+          name：实体类属性名（非私有成员字段名）
           type：实体类属性的数据类型。可以设置Java的数据类型或Hibernate映射的数据类型。
             实体类的属性数据类型必须与数据表对应的字段数据类型一致。
             Java数据类型映射到Hibernate映射类型，再由Hibernate映射类型映射到SQL数据类型（Java -> Hibernate -> SQL）
@@ -72,5 +74,8 @@
                 <column name="student_id" sql-type="varchar(36)"/>
             </many-to-many>
         </set>
+
+        <!-- 一对一关系，constrained设置为true指使用对象的主键 -->
+        <!--<one-to-one name="本对象的属性" class="对方类型" constrained="true"/>-->
     </class>
 </hibernate-mapping>

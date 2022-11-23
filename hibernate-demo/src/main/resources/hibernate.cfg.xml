@@ -3,10 +3,10 @@
         "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <!--
-  配置Hibernate的全局环境：
-  1. 数据连接信息
-  2. 设置数据库连接池
-  3. 数据库方言等
+  Hibernate的全局配置：
+  1. 数据库连接信息及连接池、数据库方言等
+  2. Hibernate特定配置
+  3. 映射（Mapping）信息
  -->
 <hibernate-configuration>
     <session-factory>
@@ -28,8 +28,8 @@
 
         <!--
           自动更新数据库
-          update: 动态创建表，如果表存在，则直接使用（即使表结构不一致也不进行检查），如果表不存在，则创建。
-          create：无论表是否存在，都会重新创建。若表已经存在，会报错
+          update: 动态创建表，如果表存在，则直接使用或更新（更新有时不好用，例如修改varchar字段长度），如果表不存在，则创建。
+          create：无论表是否存在，都会重新创建。若表已经存在，会先删除再创建
           create-drop：程序初始化时创建表，结束的时候会自动删除表
           validate：检验实体关系映射文件和数据表是否对应，不能对应直接报错
           -->
@@ -39,7 +39,7 @@
         <property name="show_sql">true</property>
         <property name="format_sql">true</property>
 
-        <!-- 配置Mapping映射文件，使用注解配置时，只需要保留一个空的Mapping节点 -->
+        <!-- 配置Mapping映射文件 -->
         <mapping resource="hbm.mapping/Customer.hbm.xml"/>
         <mapping resource="hbm.mapping/CustomerOrder.hbm.xml"/>
 

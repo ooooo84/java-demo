@@ -27,11 +27,99 @@ public class HibernateHqlTest {
 
         orderByFields(sessionFactory);
 
-        selectFields(sessionFactory);
+        projectionQuery(sessionFactory);
 
-        placeholder(sessionFactory);
+        queryParameters(sessionFactory);
 
         cascadeQuery(sessionFactory);
+
+        aggregationQuery(sessionFactory);
+
+        projectionQueryWithStrongType(sessionFactory);
+
+        innerJoinQuery(sessionFactory);
+
+        leftJoinQuery(sessionFactory);
+
+        rightJoinQuery(sessionFactory);
+    }
+
+    private static void rightJoinQuery(SessionFactory sessionFactory) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "select c.name as cname, o.name as oname from CustomerOrder o right join o.customer c";
+
+            Query<Object[]> query = session.createQuery(hql);
+            List<Object[]> list = query.list();
+            for (Object[] row : list) {
+                for (Object field : row) {
+                    System.out.print(field + "\t");
+                }
+
+                System.out.println();
+            }
+        }
+    }
+
+    private static void leftJoinQuery(SessionFactory sessionFactory) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "select c.name as cname, o.name as oname from Customer c left join c.orders o";
+
+            Query<Object[]> query = session.createQuery(hql);
+            List<Object[]> list = query.list();
+            for (Object[] row : list) {
+                for (Object field : row) {
+                    System.out.print(field + "\t");
+                }
+
+                System.out.println();
+            }
+        }
+    }
+
+    private static void innerJoinQuery(SessionFactory sessionFactory) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "select c.name as cname, o.name as oname from Customer c inner join c.orders o";
+
+            Query<Object[]> query = session.createQuery(hql);
+            List<Object[]> list = query.list();
+            for (Object[] row : list) {
+                for (Object field : row) {
+                    System.out.print(field + "\t");
+                }
+
+                System.out.println();
+            }
+        }
+    }
+
+    private static void projectionQueryWithStrongType(SessionFactory sessionFactory) {
+        try (Session session = sessionFactory.openSession()) {
+            // 注意：需要在CustomerOrder对象中添加相应参数的构造方法
+            String hql = "select new CustomerOrder(id, name) from CustomerOrder";
+
+            Query<CustomerOrder> query = session.createQuery(hql);
+
+            List<CustomerOrder> list = query.list();
+            for (CustomerOrder order : list) {
+                System.out.print(order);
+            }
+        }
+    }
+
+    /**
+     * 使用聚合函数查询
+     *
+     * @param sessionFactory
+     */
+    private static void aggregationQuery(SessionFactory sessionFactory) {
+        try (Session session = sessionFactory.openSession()) {
+            String hql = "select COUNT(*) from Customer";
+
+            Query<Long> query = session.createQuery(hql);
+
+            Long count = query.uniqueResult();
+            System.out.println(count);
+        }
     }
 
     /**
@@ -63,7 +151,7 @@ public class HibernateHqlTest {
      *
      * @param sessionFactory
      */
-    private static void placeholder(SessionFactory sessionFactory) {
+    private static void queryParameters(SessionFactory sessionFactory) {
         try (Session session = sessionFactory.openSession()) {
             String hql = "from Customer where name = :name";
 
@@ -84,7 +172,7 @@ public class HibernateHqlTest {
      *
      * @param sessionFactory
      */
-    private static void selectFields(SessionFactory sessionFactory) {
+    private static void projectionQuery(SessionFactory sessionFactory) {
         try (Session session = sessionFactory.openSession()) {
             String hql = "select id, name from CustomerOrder";
 
@@ -92,8 +180,10 @@ public class HibernateHqlTest {
             List<Object[]> list = query.list();
             for (Object[] row : list) {
                 for (Object field : row) {
-                    System.out.println(field);
+                    System.out.println(field + "\t");
                 }
+
+                System.out.println();
             }
         }
     }

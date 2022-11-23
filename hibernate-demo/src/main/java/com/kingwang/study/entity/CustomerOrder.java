@@ -20,6 +20,11 @@ public class CustomerOrder {
 
     private Customer customer;
 
+    public CustomerOrder(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "CustomerOrder{" +
