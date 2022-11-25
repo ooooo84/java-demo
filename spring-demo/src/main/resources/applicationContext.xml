@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--
+      Spring XML配置中常用的Bean配置：
+      1. <bean id="" class="">：Bean的id和全限定名配置，如果不配置id，则会把当前Bean的全限定类名作为name
+      2. <bean name="">：通过name设置Bean的别名，通过别名也能直接获取到Bean实例，可以为bean指定多个别名，通过逗号分隔
+      3. <bean scope="singleton|prototype">：Bean的作用范围，BeanFactory作为容器时取值singleton和prototype，默认为singleton
+      4. <bean lazy-init="false|true">：Bean的实例化时机，是否延迟加载。BeanFactory作为容器时无效
+      5. <bean init-method="">：Bean实例化后自动执行的初始化方法，method指定方法名。
+         注：当bean实现了InitializingBean接口时，接口提供的afterPropertiesSet()方法早于init-method配置的方法执行
+      6. <bean destroy-method="">：Bean实例销毁前的方法，method指定方法名，只有容器关闭时才能被正确调用
+      7. <bean autowire="byType|byName">：设置自动注入模式，常用的有按照类型byType，按照名字byName
+      8. <bean factory-bean="" factory-method="">：指定哪个工厂Bean的哪个方法完成Bean的创建
+      -->
+
+    <!-- 配置UserServiceImpl -->
+    <bean id="userService" class="com.kingwang.study.service.impl.UserServiceImpl">
+        <property name="userDao" ref="userDao"/>
+    </bean>
+
+    <!-- 配置UserDaoImpl -->
+    <bean id="userDao" class="com.kingwang.study.dao.impl.UserDaoImpl"/>
+</beans>
