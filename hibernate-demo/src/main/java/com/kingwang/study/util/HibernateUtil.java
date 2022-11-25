@@ -36,9 +36,9 @@ public final class HibernateUtil {
         }
 
         // 未使用ThreadLocal管理Session对象时，使用下面的命令获取Session
-//        return INSTANCE.openSession();
+        return INSTANCE.openSession();
 
         // 启用ThreadLocal管理Session对象时，使用下面的命令获取Session
-        return INSTANCE.getCurrentSession();
+//        return INSTANCE.getCurrentSession();
     }
 }

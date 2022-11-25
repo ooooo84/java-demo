@@ -76,6 +76,6 @@
         </set>
 
         <!-- 一对一关系，constrained设置为true指使用对象的主键 -->
-        <!--<one-to-one name="本对象的属性" class="对方类型" constrained="true"/>-->
+        <!--        <one-to-one name="本对象的属性" class="对方JavaBean类型" constrained="true"/>-->
     </class>
 </hibernate-mapping>

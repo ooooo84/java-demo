@@ -43,7 +43,7 @@ public class HibernateLazyLoadingTest {
 
     private static void lazyLoadingManyToMany(SessionFactory sessionFactory) {
         try (Session session = sessionFactory.openSession()) {
-            Course course = session.get(Course.class, "27bed758-2d0f-45ac-a49a-7efc38890346");
+            Course course = session.get(Course.class, "ec33a73d-7493-4e9a-94ee-07b8efc3e421");
 
             System.out.println(course);
 
@@ -54,7 +54,7 @@ public class HibernateLazyLoadingTest {
 
     private static void lazyLoadingManyToOne(SessionFactory sessionFactory) {
         try (Session session = sessionFactory.openSession()) {
-            CustomerOrder order = session.get(CustomerOrder.class, "d22fa4c9-91a4-41eb-86c9-a975d53d6b0c");
+            CustomerOrder order = session.get(CustomerOrder.class, "7acd8bfd-9c4b-46ae-90ad-2e9cafd7f687");
             System.out.println(order);
 
             Customer customer = order.getCustomer();
@@ -64,7 +64,7 @@ public class HibernateLazyLoadingTest {
 
     private static void lazyLoadingOneToMany(SessionFactory sessionFactory) {
         try (Session session = sessionFactory.openSession()) {
-            Customer customer = session.get(Customer.class, "c262cd49-4d27-472d-9577-06420d24dcf9");
+            Customer customer = session.get(Customer.class, "4f9bd906-bf2b-4898-ab78-d27df8d71290");
             System.out.println(customer);
 
             Set<CustomerOrder> orders = customer.getOrders();

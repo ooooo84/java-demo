@@ -76,7 +76,7 @@ public class HibernateSaveTest {
             order.setName("订单1");
             order.setCustomer(newCustomer);
 
-            // 保存，多个对象都要保存
+            // 未开启级联保存时，多个对象都要保存
             session.save(newCustomer);
             session.save(order);
 
@@ -101,6 +101,7 @@ public class HibernateSaveTest {
 
             Set<Course> courses = new HashSet<>();
             courses.add(newCourse);
+
             newStudent.setCourses(courses);
 
             session.save(newCourse);

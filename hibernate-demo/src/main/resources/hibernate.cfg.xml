@@ -19,7 +19,9 @@
         <property name="connection.password">123</property>
 
         <!-- 配置HikariCP连接池 -->
-        <property name="connection.provider_class">org.hibernate.hikaricp.internal.HikariCPConnectionProvider</property>
+        <property name="connection.provider_class">
+            org.hibernate.hikaricp.internal.HikariCPConnectionProvider
+        </property>
         <property name="hibernate.hikari.minimumIdle">5</property>
         <property name="hibernate.hikari.maximumPoolSize">20</property>
 
@@ -29,9 +31,11 @@
         <!--
           自动更新数据库
           update: 动态创建表，如果表存在，则直接使用或更新（更新有时不好用，例如修改varchar字段长度），如果表不存在，则创建。
+                  一般在开发时使用此选项
           create：无论表是否存在，都会重新创建。若表已经存在，会先删除再创建
           create-drop：程序初始化时创建表，结束的时候会自动删除表
           validate：检验实体关系映射文件和数据表是否对应，不能对应直接报错
+          生产环境一般不配置，最多可能配置成validate
           -->
         <property name="hbm2ddl.auto">update</property>
 
@@ -57,7 +61,7 @@
         <!--        <property name="hibernate.connection.isolation">2</property>-->
 
         <!-- 让Session对象被ThreadLocal管理 -->
-        <property name="hibernate.current_session_context_class">thread</property>
+        <!--        <property name="hibernate.current_session_context_class">thread</property>-->
 
         <!-- 配置是否显示并格式化SQL -->
         <property name="show_sql">true</property>

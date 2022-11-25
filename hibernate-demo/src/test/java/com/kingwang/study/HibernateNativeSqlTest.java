@@ -19,12 +19,13 @@ public class HibernateNativeSqlTest {
 
     private static void strongTypeQuery() {
         try (Session session = HibernateUtil.getSession()) {
-            NativeQuery sqlQuery = session.createSQLQuery("SELECT * FROM cust_order WHERE customer_id = :cid");
+            NativeQuery sqlQuery = session.createSQLQuery("SELECT * FROM cust_order WHERE " +
+                    "customer_id = :cid");
 
             // 指定强类型
             sqlQuery.addEntity(CustomerOrder.class);
 
-            sqlQuery.setParameter("cid", "f72e7be2-8713-466b-8c77-98027789f1c8");
+            sqlQuery.setParameter("cid", "4f9bd906-bf2b-4898-ab78-d27df8d71290");
 
             List<CustomerOrder> list = sqlQuery.list();
             for (CustomerOrder order : list) {
