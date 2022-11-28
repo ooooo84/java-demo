@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Spring XML配置文件的命名空间：
+  1. 默认命名空间（使用时不需要加前缀）：beans。提供以下标签：
+     <beans>：可以配置多套环境，配合spring.profiles.active配置进行自动切换
+     <bean>：配置bean
+     <import>：导入其它配置文件
+     <alias>：给bean起别名
+  2. 外部命名空间（使用时需要加前缀）：
+     context
+     aop
+     mvc
+ -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:component-scan base-package="com.kingwang.study"/>
 
     <!--
       Spring XML配置中常用的Bean配置：
@@ -68,6 +84,8 @@
             </props>
         </property>
     </bean>
+
+    <!-- 当配置第三方的Bean时，可以综合使用静态工厂方法和实例工厂方法进行Bean的配置（例如JDBC/Druid/HikariCP） -->
     <!-- 静态工厂方法创建Bean，class指定工厂类，factory-method指定工厂方法名称，constructor-arg设置工厂方法的参数 -->
     <bean id="userDao1" class="com.kingwang.study.factory.MyBeanFactory1" factory-method="userDao">
         <constructor-arg name="username" value="userDao1"/>
