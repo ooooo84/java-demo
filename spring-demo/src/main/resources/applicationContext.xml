@@ -16,11 +16,65 @@
       8. <bean factory-bean="" factory-method="">：指定哪个工厂Bean的哪个方法完成Bean的创建
       -->
 
+    <!--
+      Bean的依赖注入方式：
+      1. 通过Bean的set方法注入：<property name="userDao" ref="userDao"/>或<property name="username" name="king"/>
+      2. 通过构造bean的方法进行注入：<constructor-arg name="userDao" ref="userDao"/>或<constructor-arg name="username" value="king"/>
+
+      如何注入集合类（List、Set、Map、Properties）属性：
+
+     -->
+
     <!-- 配置UserServiceImpl -->
     <bean id="userService" class="com.kingwang.study.service.impl.UserServiceImpl">
+        <!-- 使用有参构造，只要是构造bean时使用的参数，都使用constructor-arg进行配置 -->
+        <constructor-arg name="name" value="UserService"/>
         <property name="userDao" ref="userDao"/>
     </bean>
 
-    <!-- 配置UserDaoImpl -->
     <bean id="userDao" class="com.kingwang.study.dao.impl.UserDaoImpl"/>
+
+    <!-- 配置UserDaoImpl -->
+    <bean id="userService1" class="com.kingwang.study.service.impl.UserServiceImpl">
+        <!-- 注入普通的字符串List，如果元素是复杂类型，可以使用<bean>或<ref> -->
+        <property name="stringList">
+            <list>
+                <value>aaa</value>
+                <value>bbb</value>
+                <value>ccc</value>
+            </list>
+        </property>
+        <!-- 注入Set时，将<list>替换为<set> -->
+        <property name="stringSet">
+            <set>
+                <value>1</value>
+                <value>2</value>
+                <value>3</value>
+            </set>
+        </property>
+        <!-- 注入Map时，将<list>替换为<map>，其下使用<entry key="" value="" key-ref="" value-ref=""> -->
+        <property name="stringMap">
+            <map>
+                <entry key="1" value="1"/>
+                <entry key="2" value="2"/>
+                <entry key="3" value="3"/>
+            </map>
+        </property>
+        <!-- 注入Properties时，将<list>替换为<props>，其下使用<prop> -->
+        <property name="properties">
+            <props>
+                <prop key="p1">ppp1</prop>
+                <prop key="p2">ppp2</prop>
+            </props>
+        </property>
+    </bean>
+    <!-- 静态工厂方法创建Bean，class指定工厂类，factory-method指定工厂方法名称，constructor-arg设置工厂方法的参数 -->
+    <bean id="userDao1" class="com.kingwang.study.factory.MyBeanFactory1" factory-method="userDao">
+        <constructor-arg name="username" value="userDao1"/>
+    </bean>
+    <!-- 实例工厂方法创建bean，需要先配置工厂对象，然后通过factory-bean和factory-method方法进行配置 -->
+    <bean id="myBeanFactory2" class="com.kingwang.study.factory.MyBeanFactory2"/>
+    <bean id="userDao2" factory-bean="myBeanFactory2" factory-method="userDao"/>
+    <!-- FactoryBean<T>方式创建bean（延迟创建） -->
+    <bean id="userDao3" class="com.kingwang.study.factory.MyBeanFactory3"/>
 </beans>

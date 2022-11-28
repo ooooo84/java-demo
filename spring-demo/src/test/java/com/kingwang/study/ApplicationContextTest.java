@@ -1,5 +1,6 @@
 package com.kingwang.study;
 
+import com.kingwang.study.dao.UserDao;
 import com.kingwang.study.service.UserService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -24,6 +25,16 @@ public class ApplicationContextTest {
 
         UserService userService = applicationContext.getBean("userService", UserService.class);
 
-        System.out.println(userService);
+        UserDao userDao1 = applicationContext.getBean("userDao1", UserDao.class);
+        System.out.println(userDao1);
+
+        UserDao userDao2 = applicationContext.getBean("userDao2", UserDao.class);
+        System.out.println(userDao2);
+
+        UserDao userDao3 = applicationContext.getBean("userDao3", UserDao.class);
+        System.out.println(userDao3);
+
+        UserService userService1 = applicationContext.getBean("userService1", UserService.class);
+        System.out.println(userService1);
     }
 }
