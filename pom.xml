@@ -12,6 +12,7 @@
         <module>webservice-demo</module>
         <module>hibernate-demo</module>
         <module>spring-demo</module>
+        <module>spring-websocket-demo</module>
     </modules>
 
     <properties>
