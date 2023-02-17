@@ -4,8 +4,11 @@ import com.kingwang.study.dto.Message;
 import com.kingwang.study.dto.ResponseMessage;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.util.HtmlUtils;
+
+import java.security.Principal;
 
 @Controller
 public class MessageController {
@@ -26,5 +29,24 @@ public class MessageController {
         Thread.sleep(1000);
 
         return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
+    }
+
+    /**
+     * 使用SendToUser注解将消息发送给特定的用户
+     * 本方法实现了自己给自己发消息的功能
+     *
+     * @param message
+     * @param principal
+     * @return
+     * @throws InterruptedException
+     */
+    @MessageMapping("/private-message")
+    @SendToUser("/topic/private-messages")
+    public ResponseMessage handlePrivateMessage(final Message message, final Principal principal) throws InterruptedException {
+        Thread.sleep(1000);
+
+        return new ResponseMessage(HtmlUtils.htmlEscape(
+                "Sending private message to user " + principal.getName() + ": "
+                        + message.getMessageContent()));
     }
 }
