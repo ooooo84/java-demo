@@ -2,6 +2,8 @@ package com.kingwang.study.controller;
 
 import com.kingwang.study.dto.Message;
 import com.kingwang.study.dto.ResponseMessage;
+import com.kingwang.study.service.NotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.annotation.SendToUser;
@@ -12,6 +14,13 @@ import java.security.Principal;
 
 @Controller
 public class MessageController {
+    private final NotificationService notificationService;
+
+    @Autowired
+    public MessageController(NotificationService notificationService) {
+        this.notificationService = notificationService;
+    }
+
     /**
      * 使用Controller中的方法处理WebSocket消息
      * 使用MessageMapping注解指定需要接收消息的URL，
@@ -27,6 +36,8 @@ public class MessageController {
     @SendTo("/topic/messages")
     public ResponseMessage handleMessage(final Message message) throws InterruptedException {
         Thread.sleep(1000);
+
+        notificationService.sendGlobalNotification();
 
         return new ResponseMessage(HtmlUtils.htmlEscape(message.getMessageContent()));
     }
@@ -45,8 +56,12 @@ public class MessageController {
     public ResponseMessage handlePrivateMessage(final Message message, final Principal principal) throws InterruptedException {
         Thread.sleep(1000);
 
+        String userId = principal.getName();
+
+        notificationService.sendPrivateNotification(userId);
+
         return new ResponseMessage(HtmlUtils.htmlEscape(
-                "Sending private message to user " + principal.getName() + ": "
+                "Sending private message to user " + userId + ": "
                         + message.getMessageContent()));
     }
 }

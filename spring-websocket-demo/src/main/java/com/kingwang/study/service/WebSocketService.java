@@ -7,11 +7,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class WebSocketService {
-    private SimpMessagingTemplate simpMessagingTemplate;
+    private final NotificationService notificationService;
+
+    private final SimpMessagingTemplate simpMessagingTemplate;
 
     @Autowired
-    public WebSocketService(SimpMessagingTemplate simpMessagingTemplate) {
+    public WebSocketService(SimpMessagingTemplate simpMessagingTemplate, NotificationService notificationService) {
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.notificationService = notificationService;
     }
 
     /**
@@ -22,6 +25,8 @@ public class WebSocketService {
      */
     public void notifyFrontend(final String message) {
         ResponseMessage response = new ResponseMessage(message);
+
+        notificationService.sendGlobalNotification();
 
         simpMessagingTemplate.convertAndSend("/topic/messages", response);
     }
@@ -34,6 +39,8 @@ public class WebSocketService {
      */
     public void notifyUser(final String userId, final String message) {
         ResponseMessage response = new ResponseMessage(message);
+
+        notificationService.sendPrivateNotification(userId);
 
         simpMessagingTemplate.convertAndSendToUser(userId, "/topic/private-messages", response);
     }
