@@ -19,6 +19,7 @@ import java.util.Objects;
  * 1. 无法消费已经存在于Topic中的历史消息
  * 2. 每条消息会被所有的的消费者消费
  * 3. 可以实现发布订阅模式
+ * 4. 默认消息是非持久化的
  */
 public class ConsumerDemo5 {
     // 1. activemq 的地址

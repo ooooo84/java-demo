@@ -14,10 +14,6 @@ import java.util.Objects;
 
 /**
  * Topic模式消费者
- * <p>
- * Topic模式的特点：
- * 1. 无法消费已经存在于Topic中的历史消息
- * 2. 每条消息会被所有的的消费者消费
  */
 public class ConsumerDemo6 {
     // 1. activemq 的地址

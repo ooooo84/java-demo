@@ -15,11 +15,6 @@ import java.util.Objects;
 
 /**
  * Topic模式消费者-发布订阅
- * <p>
- * Topic模式的特点：
- * 1. 无法消费已经存在于Topic中的历史消息
- * 2. 每条消息会被所有的的消费者消费
- * 3. 可以实现发布订阅模式
  */
 public class ConsumerDemo7 {
     // 1. activemq 的地址

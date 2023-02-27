@@ -16,6 +16,7 @@ import javax.jms.TextMessage;
  * 使用Queue模式的特点：
  * 1. 1条消息只能被1个消费者消费
  * 2. 在有多个消费者的情况下，使用轮询的方式消费多条消息
+ * 3. 默认的消息持久化状态是持久化的
  */
 public class ProducerDemo2 {
     // 1. activemq 的地址
