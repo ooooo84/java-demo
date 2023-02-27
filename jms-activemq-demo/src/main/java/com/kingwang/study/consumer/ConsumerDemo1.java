@@ -2,7 +2,14 @@ package com.kingwang.study.consumer;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import javax.jms.*;
+import javax.jms.Connection;
+import javax.jms.ConnectionFactory;
+import javax.jms.Destination;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.Session;
+import javax.jms.TextMessage;
 import java.util.Objects;
 
 public class ConsumerDemo1 {
@@ -24,7 +31,7 @@ public class ConsumerDemo1 {
         Destination queue = session.createQueue(QUEUE_NAME);
         // 8. 创建消费者
         MessageConsumer consumer = session.createConsumer(queue);
-        // 9. 消费消息
+        // 9. 消费消息（同步阻塞方式）
         try {
             while (true) {
                 Message message = consumer.receive();

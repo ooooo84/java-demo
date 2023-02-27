@@ -1,4 +1,4 @@
-package com.kingwang.study.producer;
+package com.kingwang.study.consumer;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -6,14 +6,13 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.MessageProducer;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import java.util.Objects;
 
-/**
- * 基于JMS实现的消息生产者
- */
-public class ProducerDemo1 {
+public class ConsumerDemo2 {
     // 1. activemq 的地址
     public static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
     // 2. destination 目的地
@@ -30,16 +29,18 @@ public class ProducerDemo1 {
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         // 7. 设置 Destination 目的地
         Destination queue = session.createQueue(QUEUE_NAME);
-        // 8. 创建生产者
-        MessageProducer producer = session.createProducer(queue);
-        // 9. 创建消息
-        TextMessage textMessage = session.createTextMessage("Hello activemq!");
-//        textMessage.setText("Hello activemq!"));
-        // 10. 发送消息（同步阻塞方式）
-        producer.send(textMessage);
-        // 11. 关闭连接
+        // 8. 创建消费者
+        MessageConsumer consumer = session.createConsumer(queue);
+        // 9. 消费消息（同步阻塞方式）
+        Message message = consumer.receive();
+        if (Objects.nonNull(message) && message instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage) message;
+
+            System.out.println("接收到的消息：" + textMessage.getText());
+        }
+
         connection.close();
 
-        System.out.println("消息已发送！");
+        System.out.println("==========只有接收到消息时才会执行到这里==========");
     }
 }

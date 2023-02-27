@@ -12,8 +12,12 @@ import javax.jms.TextMessage;
 
 /**
  * 基于JMS实现的消息生产者
+ * <p>
+ * 使用Queue模式的特点：
+ * 1. 1条消息只能被1个消费者消费
+ * 2. 在有多个消费者的情况下，使用轮询的方式消费多条消息
  */
-public class ProducerDemo1 {
+public class ProducerDemo2 {
     // 1. activemq 的地址
     public static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
     // 2. destination 目的地
@@ -33,10 +37,12 @@ public class ProducerDemo1 {
         // 8. 创建生产者
         MessageProducer producer = session.createProducer(queue);
         // 9. 创建消息
-        TextMessage textMessage = session.createTextMessage("Hello activemq!");
-//        textMessage.setText("Hello activemq!"));
-        // 10. 发送消息（同步阻塞方式）
-        producer.send(textMessage);
+        for (int i = 0; i < 10; i++) {
+            TextMessage textMessage = session.createTextMessage("Hello activemq-" + i);
+
+            // 10. 发送消息（同步阻塞方式）
+            producer.send(textMessage);
+        }
         // 11. 关闭连接
         connection.close();
 

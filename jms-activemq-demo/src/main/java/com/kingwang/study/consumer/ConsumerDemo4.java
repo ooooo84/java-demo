@@ -1,4 +1,4 @@
-package com.kingwang.study.producer;
+package com.kingwang.study.consumer;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -6,20 +6,19 @@ import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
-import javax.jms.MessageProducer;
+import javax.jms.MessageConsumer;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import java.io.IOException;
+import java.util.Objects;
 
-/**
- * 基于JMS实现的消息生产者
- */
-public class ProducerDemo1 {
+public class ConsumerDemo4 {
     // 1. activemq 的地址
     public static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
     // 2. destination 目的地
     public static final String QUEUE_NAME = "my_queue_1";
 
-    public static void main(String[] args) throws JMSException {
+    public static void main(String[] args) throws JMSException, IOException {
         // 3. 创建 ConnectionFactory
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ACTIVEMQ_URL);
         // 4. 获得 Connection
@@ -30,16 +29,22 @@ public class ProducerDemo1 {
         Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
         // 7. 设置 Destination 目的地
         Destination queue = session.createQueue(QUEUE_NAME);
-        // 8. 创建生产者
-        MessageProducer producer = session.createProducer(queue);
-        // 9. 创建消息
-        TextMessage textMessage = session.createTextMessage("Hello activemq!");
-//        textMessage.setText("Hello activemq!"));
-        // 10. 发送消息（同步阻塞方式）
-        producer.send(textMessage);
-        // 11. 关闭连接
-        connection.close();
+        // 8. 创建消费者
+        MessageConsumer consumer = session.createConsumer(queue);
+        // 9. 消费消息（异步非阻塞方式，通过设置消息监听器实现）
+        consumer.setMessageListener(message -> {
+            if (Objects.nonNull(message) && message instanceof TextMessage) {
+                TextMessage textMessage = (TextMessage) message;
 
-        System.out.println("消息已发送！");
+                try {
+                    System.out.println("消费者1接收到的消息：" + textMessage.getText());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        System.out.println("==========没有接收到消息时也会执行到这里==========");
+        System.in.read();
     }
 }
