@@ -4,18 +4,18 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
-import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.jms.MapMessage;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 
 /**
  * 基于JMS实现的消息生产者
  * ActiveMQ Topic
+ * 消息体的数据结构：MapMessage
  */
-public class ProducerDemo3 {
+public class ProducerDemo4 {
     // 1. activemq 的地址
     public static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
     // 2. destination 目的地
@@ -36,16 +36,10 @@ public class ProducerDemo3 {
         MessageProducer producer = session.createProducer(topic);
         // 9. 创建消息
         for (int i = 0; i < 10; i++) {
-            TextMessage message = session.createTextMessage("Hello topic-" + i);
+            MapMessage message = session.createMapMessage();
 
-            // 指定单条Message的目的地
-            message.setJMSDestination(topic);
-            // 设置单条消息是否持久化，未持久化的消息保存在内存中，一旦重启服务器会丢失
-            message.setJMSDeliveryMode(DeliveryMode.PERSISTENT);
-            // 设置单条消息的超时时间，超过该时间的消息会被丢弃，但不保证消费者一定不会消费到过期的消息
-            message.setJMSExpiration(3000L);
-            // 设置消息ID
-            message.setJMSMessageID("1234");
+            message.setString("name", "Xiaoming-" + i);
+            message.setInt("age", 18 + i);
 
             // 10. 发送消息（同步阻塞方式）
             producer.send(message);

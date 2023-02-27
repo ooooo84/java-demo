@@ -16,7 +16,7 @@ public class ConsumerDemo4 {
     // 1. activemq 的地址
     public static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
     // 2. destination 目的地
-    public static final String QUEUE_NAME = "my_queue_1";
+    public static final String QUEUE_NAME = "my_queue_2";
 
     public static void main(String[] args) throws JMSException, IOException {
         // 3. 创建 ConnectionFactory
@@ -37,7 +37,7 @@ public class ConsumerDemo4 {
                 TextMessage textMessage = (TextMessage) message;
 
                 try {
-                    System.out.println("消费者1接收到的消息：" + textMessage.getText());
+                    System.out.println(Thread.currentThread().getId() + "接收到的消息：" + textMessage.getText());
                 } catch (JMSException e) {
                     e.printStackTrace();
                 }
