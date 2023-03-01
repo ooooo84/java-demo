@@ -15,6 +15,7 @@
         <module>spring-websocket-demo</module>
         <module>jms-activemq-demo</module>
         <module>spring-activemq</module>
+        <module>spring-boot-activemq-demo</module>
     </modules>
 
     <properties>
