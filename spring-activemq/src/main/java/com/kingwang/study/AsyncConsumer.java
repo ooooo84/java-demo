@@ -2,6 +2,7 @@ package com.kingwang.study;
 
 import org.springframework.stereotype.Component;
 
+import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.TextMessage;
@@ -18,7 +19,11 @@ public class AsyncConsumer implements MessageListener {
         if (message instanceof TextMessage) {
             TextMessage textMessage = ((TextMessage) message);
 
-            System.out.println(textMessage.getText());
+            try {
+                System.out.println(textMessage.getText());
+            } catch (JMSException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
