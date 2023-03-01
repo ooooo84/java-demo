@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+    <context:component-scan base-package="com.kingwang.study"/>
+
+    <!-- 配置连接工厂 -->
+    <bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory" destroy-method="stop">
+        <property name="connectionFactory">
+            <!-- 配置ConnectionFactory -->
+            <bean class="org.apache.activemq.spring.ActiveMQConnectionFactory">
+                <property name="brokerURL" value="tcp://127.0.0.1:61616"/>
+            </bean>
+        </property>
+        <property name="maxConnections" value="10"/>
+    </bean>
+
+    <!-- 目的地：配置Queue -->
+    <bean id="destinationQueue" class="org.apache.activemq.command.ActiveMQQueue">
+        <constructor-arg name="name" value="my-spring-queue"/>
+    </bean>
+
+    <!-- 目的地：配置Topic -->
+    <bean id="destinationTopic" class="org.apache.activemq.command.ActiveMQTopic">
+        <constructor-arg name="name" value="my-spring-topic"/>
+    </bean>
+
+    <!-- Spring提供的JMS类 -->
+    <bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+        <!-- 传入连接工厂 -->
+        <property name="connectionFactory" ref="connectionFactory"/>
+        <!-- 传入目的地 -->
+        <property name="defaultDestination" ref="destinationQueue"/>
+        <!-- 消息自动转换器 -->
+        <property name="messageConverter">
+            <bean class="org.springframework.jms.support.converter.SimpleMessageConverter"/>
+        </property>
+    </bean>
+</beans>
